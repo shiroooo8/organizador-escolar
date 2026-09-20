@@ -1,0 +1,10 @@
+{
+    "name": "Organizador Escolar",
+    "short_name": "Organizador",
+    "description": "Organiza tus clases, tareas, exámenes y actividades.",
+    "start_url": "./",
+    "display": "standalone",
+    "background_color": "#f2f4f8",
+    "theme_color": "#4f46e5",
+    "orientation": "portrait"
+}

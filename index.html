@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Organizador Escolar</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+    <link
+    rel="manifest"
+    href="manifest.json"
+>
+
+</head>
+
+<body>
+
+    <!-- NAVEGACIÓN -->
+
+    <nav class="navegacion">
+
+        <button
+            class="nav-boton activo"
+            data-seccion="inicio"
+        >
+            🏠 Inicio
+        </button>
+
+        <button
+            class="nav-boton"
+            data-seccion="horario"
+        >
+            🗓️ Horario
+        </button>
+
+        <button
+            class="nav-boton"
+            data-seccion="actividades"
+        >
+            📝 Actividades
+        </button>
+
+    </nav>
+
+
+    <!-- ENCABEZADO -->
+
+    <header>
+
+        <h1>📚 Organizador Escolar</h1>
+
+        <p>
+            Mi horario y mis actividades
+        </p>
+
+    </header>
+
+
+    <main>
+
+
+        <!-- INICIO -->
+
+        <section
+            id="inicio"
+            class="bienvenida"
+        >
+
+            <h2>¡Hola! 👋</h2>
+
+            <p>
+                Organiza tus clases,
+                exámenes y actividades.
+            </p>
+
+            <p id="fecha-hora"></p>
+
+        </section>
+
+
+        <!-- PRÓXIMA CLASE -->
+
+        <section class="proxima-clase">
+
+            <h2>🕐 Próxima clase</h2>
+
+            <div id="proxima-clase"></div>
+
+        </section>
+
+
+        <!-- HOY -->
+
+        <section class="resumen-dia">
+
+            <h2>📅 Hoy</h2>
+
+            <div id="resumen-dia"></div>
+
+        </section>
+
+
+        <!-- RECORDATORIOS -->
+
+        <section class="recordatorios">
+
+            <h2>🔔 Próximos recordatorios</h2>
+
+            <div id="proximo-recordatorio"></div>
+
+            <button id="activarNotificaciones">
+                🔔 Activar notificaciones
+            </button>
+
+        </section>
+
+
+        <!-- ACTIVIDADES -->
+
+        <section
+            id="actividades"
+            class="actividades"
+        >
+
+            <h2>📝 Mis actividades</h2>
+
+            <div id="lista-actividades">
+
+                <div class="tarjeta">
+
+                    <h3>
+                        📝 Examen de Matemáticas
+                    </h3>
+
+                    <p>
+                        Viernes · 8:00 AM
+                    </p>
+
+                </div>
+
+            </div>
+
+            <button id="agregarActividad">
+                ＋ Agregar actividad
+            </button>
+
+        </section>
+
+
+        <!-- HORARIO -->
+
+        <section
+            id="horario"
+            class="horario"
+        >
+
+            <h2>🗓️ Mi horario</h2>
+
+
+            <div class="selector-dia">
+
+                <button
+                    class="dia activo"
+                    data-dia="lunes"
+                >
+                    Lun
+                </button>
+
+                <button
+                    class="dia"
+                    data-dia="martes"
+                >
+                    Mar
+                </button>
+
+                <button
+                    class="dia"
+                    data-dia="miercoles"
+                >
+                    Mié
+                </button>
+
+                <button
+                    class="dia"
+                    data-dia="jueves"
+                >
+                    Jue
+                </button>
+
+                <button
+                    class="dia"
+                    data-dia="viernes"
+                >
+                    Vie
+                </button>
+
+            </div>
+
+
+            <div id="horario-dia"></div>
+
+
+            <button id="agregarClase">
+                ＋ Agregar clase
+            </button>
+
+        </section>
+
+
+    </main>
+
+
+    <!-- PIE DE PÁGINA -->
+
+    <footer>
+
+        <p>
+            Organizador Escolar © 2026
+        </p>
+
+    </footer>
+
+
+    <!-- VENTANA PARA AGREGAR CLASE -->
+
+    <div
+        id="ventanaClase"
+        class="ventana"
+    >
+
+        <div class="contenido-ventana">
+
+            <h2>➕ Agregar clase</h2>
+
+
+            <input
+                type="text"
+                id="nombreMateria"
+                placeholder="Nombre de la materia"
+            >
+
+
+            <input
+                type="time"
+                id="horaClase"
+            >
+
+
+            <select id="diaClase">
+
+                <option value="lunes">
+                    Lunes
+                </option>
+
+                <option value="martes">
+                    Martes
+                </option>
+
+                <option value="miercoles">
+                    Miércoles
+                </option>
+
+                <option value="jueves">
+                    Jueves
+                </option>
+
+                <option value="viernes">
+                    Viernes
+                </option>
+
+            </select>
+
+
+            <button id="guardarClase">
+                Guardar clase
+            </button>
+
+
+            <button id="cerrarVentana">
+                Cancelar
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- VENTANA PARA AGREGAR ACTIVIDAD -->
+
+    <div
+        id="ventanaActividad"
+        class="ventana"
+    >
+
+        <div class="contenido-ventana">
+
+            <h2>➕ Agregar actividad</h2>
+
+
+            <input
+                type="text"
+                id="nombreActividad"
+                placeholder="Nombre de la actividad"
+            >
+
+
+            <input
+                type="text"
+                id="materiaActividad"
+                placeholder="Materia"
+            >
+
+
+            <select id="tipoActividad">
+
+                <option value="tarea">
+                    📝 Tarea
+                </option>
+
+                <option value="examen">
+                    📚 Examen
+                </option>
+
+                <option value="presentacion">
+                    🎤 Presentación
+                </option>
+
+                <option value="proyecto">
+                    📁 Proyecto
+                </option>
+
+                <option value="otra">
+                    📌 Otra
+                </option>
+
+            </select>
+
+
+            <input
+                type="date"
+                id="fechaActividad"
+            >
+
+
+            <input
+                type="time"
+                id="horaActividad"
+            >
+
+
+            <textarea
+                id="descripcionActividad"
+                placeholder="Descripción (opcional)"
+                rows="4"
+            ></textarea>
+
+
+            <button id="guardarActividad">
+                Guardar actividad
+            </button>
+
+
+            <button id="cerrarActividad">
+                Cancelar
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>

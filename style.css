@@ -1,0 +1,195 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f2f4f8;
+    color: #1f2937;
+    min-height: 100vh;
+}
+
+header {
+    background: #4f46e5;
+    color: white;
+    padding: 30px 20px;
+    text-align: center;
+}
+
+header h1 {
+    font-size: 28px;
+    margin-bottom: 8px;
+}
+
+header p {
+    font-size: 15px;
+    opacity: 0.9;
+}
+
+main {
+    width: 92%;
+    max-width: 600px;
+    margin: 20px auto;
+}
+
+section {
+    margin-bottom: 20px;
+}
+
+section h2 {
+    font-size: 20px;
+    margin-bottom: 12px;
+}
+
+.bienvenida {
+    background: white;
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.bienvenida h2 {
+    margin-bottom: 8px;
+}
+
+.bienvenida p {
+    color: #6b7280;
+}
+
+.tarjeta {
+    background: white;
+    padding: 18px;
+    margin-bottom: 10px;
+    border-radius: 14px;
+    border-left: 5px solid #4f46e5;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+}
+
+.tarjeta h3 {
+    font-size: 17px;
+    margin-bottom: 8px;
+}
+
+.tarjeta p {
+    color: #6b7280;
+    font-size: 14px;
+    margin-top: 4px;
+}
+
+.horario {
+    background: white;
+    padding: 20px;
+    border-radius: 16px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+button {
+    border: none;
+    background: #4f46e5;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+button:active {
+    transform: scale(0.97);
+}
+
+footer {
+    text-align: center;
+    color: #6b7280;
+    padding: 20px;
+    font-size: 13px;
+}.selector-dia {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 18px;
+    overflow-x: auto;
+}
+
+.selector-dia .dia {
+    flex: 1;
+    min-width: 55px;
+    padding: 10px 8px;
+    background: #eef0f5;
+    color: #374151;
+}
+
+.selector-dia .dia.activo {
+    background: #4f46e5;
+    color: white;
+}
+
+.clase {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    background: #f8f9fc;
+    border-radius: 12px;
+    padding: 14px;
+    margin-bottom: 10px;
+    text-align: left;
+}
+
+.hora {
+    font-size: 13px;
+    font-weight: bold;
+    color: #4f46e5;
+    min-width: 65px;
+}
+
+.info-clase h3 {
+    font-size: 16px;
+    margin-bottom: 4px;
+}
+
+.info-clase p {
+    font-size: 13px;
+    color: #6b7280;
+}/* ========================================
+   VENTANA AGREGAR CLASE
+======================================== */
+
+.ventana {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.contenido-ventana {
+    background: white;
+    width: 100%;
+    max-width: 400px;
+    padding: 24px;
+    border-radius: 18px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.contenido-ventana h2 {
+    margin-bottom: 20px;
+}
+
+.contenido-ventana input,
+.contenido-ventana select {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+    font-size: 15px;
+    background: white;
+}
+
+.contenido-ventana button {
+    width: 100%;
+    margin-top: 8px;
+}

@@ -1585,7 +1585,7 @@ if (botonNotificaciones) {
             if (!("Notification" in window)) {
 
                 alert(
-                    "Tu navegador no permite notificaciones."
+                    "Este navegador no permite notificaciones."
                 );
 
                 return;
@@ -1596,16 +1596,29 @@ if (botonNotificaciones) {
 
             if (permiso === "granted") {
 
-                new Notification(
-                    "📚 Organizador Escolar",
-                    {
-                        body:
-                            "¡Las notificaciones están activadas! 🔔"
-                    }
-                );
+                if (
+                    "serviceWorker" in navigator
+                ) {
+
+                    const registro =
+                        await navigator.serviceWorker.ready;
+
+                    registro.showNotification(
+                        "📚 Organizador Escolar",
+                        {
+                            body:
+                                "¡Las notificaciones funcionan correctamente! 🔔",
+                            icon:
+                                "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
+                            badge:
+                                "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+                        }
+                    );
+
+                }
 
                 botonNotificaciones.textContent =
-                    "✅ Notificaciones activadas";
+                    "✅ Notificación de prueba enviada";
 
             } else {
 

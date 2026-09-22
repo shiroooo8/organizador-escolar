@@ -1,4 +1,4 @@
-const CACHE_NAME = "organizador-escolar-v1";
+const CACHE_NAME = "organizador-escolar-v2";
 
 const ARCHIVOS = [
     "./",
@@ -33,6 +33,8 @@ self.addEventListener("activate", function (evento) {
                         return caches.delete(nombre);
                     }
 
+                    return null;
+
                 })
             );
 
@@ -45,16 +47,31 @@ self.addEventListener("activate", function (evento) {
 
 self.addEventListener("fetch", function (evento) {
 
+    if (evento.request.method !== "GET") {
+        return;
+    }
+
     evento.respondWith(
 
-        caches.match(evento.request)
+        fetch(evento.request)
             .then(function (respuesta) {
 
-                if (respuesta) {
-                    return respuesta;
+                if (respuesta && respuesta.status === 200) {
+
+                    const copia = respuesta.clone();
+
+                    caches.open(CACHE_NAME)
+                        .then(function (cache) {
+                            cache.put(evento.request, copia);
+                        });
                 }
 
-                return fetch(evento.request);
+                return respuesta;
+
+            })
+            .catch(function () {
+
+                return caches.match(evento.request);
 
             })
 

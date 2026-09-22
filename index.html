@@ -2,7 +2,6 @@
 <html lang="es">
 
 <head>
-
     <meta charset="UTF-8">
 
     <meta
@@ -10,57 +9,54 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Organizador Escolar</title>
+    <meta
+        name="theme-color"
+        content="#e9e4ff"
+    >
+
+    <meta
+        name="description"
+        content="Organiza tus clases, tareas, exámenes y actividades."
+    >
+
+    <link
+        rel="manifest"
+        href="manifest.json"
+    >
 
     <link
         rel="stylesheet"
         href="style.css"
     >
-    <link
-    rel="manifest"
-    href="manifest.json"
->
 
+    <title>
+        Organizador Escolar
+    </title>
 </head>
 
 <body>
 
-    <!-- NAVEGACIÓN -->
-
-    <nav class="navegacion">
-
-        <button
-            class="nav-boton activo"
-            data-seccion="inicio"
-        >
-            🏠 Inicio
-        </button>
-
-        <button
-            class="nav-boton"
-            data-seccion="horario"
-        >
-            🗓️ Horario
-        </button>
-
-        <button
-            class="nav-boton"
-            data-seccion="actividades"
-        >
-            📝 Actividades
-        </button>
-
-    </nav>
-
-
-    <!-- ENCABEZADO -->
+    <!-- ========================================
+         ENCABEZADO
+    ======================================== -->
 
     <header>
 
-        <h1>📚 Organizador Escolar</h1>
+        <button
+            id="abrirAjustes"
+            class="boton-ajustes"
+            type="button"
+        >
+            ⚙️
+        </button>
+
+        <h1>
+            Organizador
+        </h1>
 
         <p>
-            Mi horario y mis actividades
+            Tu espacio para organizar clases,
+            actividades y recordatorios.
         </p>
 
     </header>
@@ -69,169 +65,318 @@
     <main>
 
 
-        <!-- INICIO -->
+        <!-- ========================================
+             INICIO
+        ======================================== -->
 
-        <section
-            id="inicio"
-            class="bienvenida"
-        >
+        <section id="inicio">
 
-            <h2>¡Hola! 👋</h2>
+            <div class="bienvenida">
 
-            <p>
-                Organiza tus clases,
-                exámenes y actividades.
-            </p>
+                <h2>
+                    👋 ¡Bienvenido!
+                </h2>
 
-            <p id="fecha-hora"></p>
+                <p>
+                    Todo lo que necesitas para
+                    organizar tu día escolar.
+                </p>
+
+            </div>
+
+
+            <!-- FECHA Y HORA -->
+
+            <div
+                id="fecha-hora"
+                class="fecha-hora"
+            ></div>
+
+
+            <!-- ========================================
+                 ACCESOS RÁPIDOS
+            ======================================== -->
+<h2 class="titulo-accesos">
+    ✨ Accesos rápidos
+</h2>
+
+            <div class="grid-accesos">
+
+                <button
+                    id="accesoHorario"
+                    class="tarjeta acceso-horario"
+                    type="button"
+                >
+
+                    <span class="acceso-icono">
+                        🗓️
+                    </span>
+
+                    <strong>
+                        Horario
+                    </strong>
+
+                    <span>
+                        Tus clases
+                    </span>
+
+                </button>
+
+
+                <button
+                    id="accesoActividades"
+                    class="tarjeta acceso-actividades"
+                    type="button"
+                >
+
+                    <span class="acceso-icono">
+                        📝
+                    </span>
+
+                    <strong>
+                        Actividades
+                    </strong>
+
+                    <span>
+                        Tareas y exámenes
+                    </span>
+
+                </button>
+
+
+                <button
+                    id="accesoRecordatorios"
+                    class="tarjeta acceso-recordatorios"
+                    type="button"
+                >
+
+                    <span class="acceso-icono">
+                        🔔
+                    </span>
+
+                    <strong>
+                        Recordatorios
+                    </strong>
+
+                    <span>
+                        Próximas actividades
+                    </span>
+
+                </button>
+
+
+                <button
+                    id="accesoProximaClase"
+                    class="tarjeta acceso-proxima"
+                    type="button"
+                >
+
+                    <span class="acceso-icono">
+                        🕐
+                    </span>
+
+                    <strong>
+                        Próxima clase
+                    </strong>
+
+                    <span>
+                        Mira qué sigue
+                    </span>
+
+                </button>
+
+            </div>
+
+
+            <!-- ========================================
+                 RESUMEN DEL DÍA
+            ======================================== -->
+
+            <h2 class="titulo-resumen">
+                📋 Resumen del día
+            </h2>
+
+            <div
+                id="resumen-dia"
+                class="resumen-dia"
+            ></div>
 
         </section>
 
 
-        <!-- PRÓXIMA CLASE -->
+
+        <!-- ========================================
+             PRÓXIMA CLASE
+        ======================================== -->
 
         <section class="proxima-clase">
 
-            <h2>🕐 Próxima clase</h2>
+            <button
+                class="boton-volver"
+                type="button"
+            >
+                ← Volver a Inicio
+            </button>
 
-            <div id="proxima-clase"></div>
-
-        </section>
-
-
-        <!-- HOY -->
-
-        <section class="resumen-dia">
-
-            <h2>📅 Hoy</h2>
-
-            <div id="resumen-dia"></div>
+            <div
+                id="proxima-clase"
+            ></div>
 
         </section>
 
 
-        <!-- RECORDATORIOS -->
+
+        <!-- ========================================
+             RECORDATORIOS
+        ======================================== -->
 
         <section class="recordatorios">
 
-            <h2>🔔 Próximos recordatorios</h2>
+            <button
+                class="boton-volver"
+                type="button"
+            >
+                ← Volver a Inicio
+            </button>
 
-            <div id="proximo-recordatorio"></div>
+            <h2>
+                🔔 Recordatorios
+            </h2>
 
-            <button id="activarNotificaciones">
+            <div
+                id="proximo-recordatorio"
+            ></div>
+
+            <button
+                id="activarNotificaciones"
+                type="button"
+            >
                 🔔 Activar notificaciones
             </button>
 
         </section>
 
 
-        <!-- ACTIVIDADES -->
 
-        <section
-            id="actividades"
-            class="actividades"
-        >
+        <!-- ========================================
+             ACTIVIDADES
+        ======================================== -->
 
-            <h2>📝 Mis actividades</h2>
+        <section id="actividades">
 
-            <div id="lista-actividades">
+            <button
+                class="boton-volver"
+                type="button"
+            >
+                ← Volver a Inicio
+            </button>
 
-                <div class="tarjeta">
+            <h2>
+                📝 Actividades
+            </h2>
 
-                    <h3>
-                        📝 Examen de Matemáticas
-                    </h3>
+            <div
+                id="lista-actividades"
+            ></div>
 
-                    <p>
-                        Viernes · 8:00 AM
-                    </p>
-
-                </div>
-
-            </div>
-
-            <button id="agregarActividad">
-                ＋ Agregar actividad
+            <button
+                id="agregarActividad"
+                type="button"
+            >
+                ➕ Agregar actividad
             </button>
 
         </section>
 
 
-        <!-- HORARIO -->
 
-        <section
-            id="horario"
-            class="horario"
-        >
+        <!-- ========================================
+             HORARIO
+        ======================================== -->
 
-            <h2>🗓️ Mi horario</h2>
+        <section id="horario">
 
+            <button
+                class="boton-volver"
+                type="button"
+            >
+                ← Volver a Inicio
+            </button>
+
+            <h2>
+                🗓️ Horario
+            </h2>
+
+
+            <!-- SELECTOR DE DÍAS -->
 
             <div class="selector-dia">
 
                 <button
                     class="dia activo"
                     data-dia="lunes"
+                    type="button"
                 >
-                    Lun
+                    Lunes
                 </button>
 
                 <button
                     class="dia"
                     data-dia="martes"
+                    type="button"
                 >
-                    Mar
+                    Martes
                 </button>
 
                 <button
                     class="dia"
                     data-dia="miercoles"
+                    type="button"
                 >
-                    Mié
+                    Miércoles
                 </button>
 
                 <button
                     class="dia"
                     data-dia="jueves"
+                    type="button"
                 >
-                    Jue
+                    Jueves
                 </button>
 
                 <button
                     class="dia"
                     data-dia="viernes"
+                    type="button"
                 >
-                    Vie
+                    Viernes
                 </button>
 
             </div>
 
 
-            <div id="horario-dia"></div>
+            <div
+                id="horario-dia"
+                class="horario-dia"
+            ></div>
 
 
-            <button id="agregarClase">
-                ＋ Agregar clase
+            <button
+                id="agregarClase"
+                type="button"
+            >
+                ➕ Agregar clase
             </button>
 
         </section>
 
-
     </main>
 
 
-    <!-- PIE DE PÁGINA -->
 
-    <footer>
-
-        <p>
-            Organizador Escolar © 2026
-        </p>
-
-    </footer>
-
-
-    <!-- VENTANA PARA AGREGAR CLASE -->
+    <!-- ========================================
+         VENTANA — CLASE
+    ======================================== -->
 
     <div
         id="ventanaClase"
@@ -240,21 +385,35 @@
 
         <div class="contenido-ventana">
 
-            <h2>➕ Agregar clase</h2>
+            <h2 id="tituloVentanaClase">
+                Agregar clase
+            </h2>
 
+
+            <label for="nombreClase">
+                Nombre de la clase
+            </label>
 
             <input
+                id="nombreClase"
                 type="text"
-                id="nombreMateria"
-                placeholder="Nombre de la materia"
+                placeholder="Ej. Matemáticas"
             >
 
+
+            <label for="horaClase">
+                Hora
+            </label>
 
             <input
-                type="time"
                 id="horaClase"
+                type="time"
             >
 
+
+            <label for="diaClase">
+                Día
+            </label>
 
             <select id="diaClase">
 
@@ -281,21 +440,33 @@
             </select>
 
 
-            <button id="guardarClase">
-                Guardar clase
-            </button>
+            <div class="acciones-ventana">
 
+                <button
+                    id="guardarClase"
+                    type="button"
+                >
+                    💾 Guardar
+                </button>
 
-            <button id="cerrarVentana">
-                Cancelar
-            </button>
+                <button
+                    id="cerrarVentanaClase"
+                    type="button"
+                >
+                    Cancelar
+                </button>
+
+            </div>
 
         </div>
 
     </div>
 
 
-    <!-- VENTANA PARA AGREGAR ACTIVIDAD -->
+
+    <!-- ========================================
+         VENTANA — ACTIVIDAD
+    ======================================== -->
 
     <div
         id="ventanaActividad"
@@ -304,80 +475,185 @@
 
         <div class="contenido-ventana">
 
-            <h2>➕ Agregar actividad</h2>
+            <h2 id="tituloVentanaActividad">
+                Agregar actividad
+            </h2>
 
+
+            <label for="nombreActividad">
+                Nombre
+            </label>
 
             <input
-                type="text"
                 id="nombreActividad"
-                placeholder="Nombre de la actividad"
-            >
-
-
-            <input
                 type="text"
-                id="materiaActividad"
-                placeholder="Materia"
+                placeholder="Ej. Examen de Matemáticas"
             >
 
+
+            <label for="tipoActividad">
+                Tipo
+            </label>
 
             <select id="tipoActividad">
 
-                <option value="tarea">
-                    📝 Tarea
+                <option value="Tarea">
+                    Tarea
                 </option>
 
-                <option value="examen">
-                    📚 Examen
+                <option value="Examen">
+                    Examen
                 </option>
 
-                <option value="presentacion">
-                    🎤 Presentación
+                <option value="Proyecto">
+                    Proyecto
                 </option>
 
-                <option value="proyecto">
-                    📁 Proyecto
+                <option value="Presentación">
+                    Presentación
                 </option>
 
-                <option value="otra">
-                    📌 Otra
+                <option value="Otro">
+                    Otro
                 </option>
 
             </select>
 
 
+            <label for="fechaActividad">
+                Fecha
+            </label>
+
             <input
-                type="date"
                 id="fechaActividad"
+                type="date"
             >
 
+
+            <label for="horaActividad">
+                Hora
+            </label>
 
             <input
-                type="time"
                 id="horaActividad"
+                type="time"
             >
 
 
-            <textarea
-                id="descripcionActividad"
-                placeholder="Descripción (opcional)"
-                rows="4"
-            ></textarea>
+            <div class="acciones-ventana">
 
+                <button
+                    id="guardarActividad"
+                    type="button"
+                >
+                    💾 Guardar
+                </button>
 
-            <button id="guardarActividad">
-                Guardar actividad
-            </button>
+                <button
+                    id="cerrarVentanaActividad"
+                    type="button"
+                >
+                    Cancelar
+                </button>
 
-
-            <button id="cerrarActividad">
-                Cancelar
-            </button>
+            </div>
 
         </div>
 
     </div>
 
+
+
+    <!-- ========================================
+         AJUSTES
+    ======================================== -->
+
+    <section
+        id="ajustes"
+        class="seccion-ajustes"
+    >
+
+        <button
+            id="cerrarAjustes"
+            class="boton-volver"
+            type="button"
+        >
+            ← Volver a Inicio
+        </button>
+
+
+        <h2>
+            ⚙️ Ajustes
+        </h2>
+
+
+        <div class="tarjeta-ajuste">
+
+            <h3>
+                🔔 Notificaciones
+            </h3>
+
+            <p>
+                Activa las notificaciones del
+                organizador.
+            </p>
+
+            <button
+                id="ajustesNotificaciones"
+                type="button"
+            >
+                Activar notificaciones
+            </button>
+
+        </div>
+
+
+        <div class="tarjeta-ajuste">
+
+            <h3>
+                🕐 Formato de hora
+            </h3>
+
+            <p>
+                Elige cómo quieres mostrar las horas.
+            </p>
+
+
+            <select id="formatoHora">
+
+                <option value="12">
+                    12 horas
+                </option>
+
+                <option value="24">
+                    24 horas
+                </option>
+
+            </select>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ========================================
+         PIE DE PÁGINA
+    ======================================== -->
+
+    <footer>
+
+        <p>
+            Organizador Escolar
+        </p>
+
+    </footer>
+
+
+
+    <!-- ========================================
+         JAVASCRIPT
+    ======================================== -->
 
     <script src="script.js"></script>
 

@@ -1,24 +1,42 @@
-// ----------------------------------------
+// ========================================
 // ORGANIZADOR ESCOLAR
-// ----------------------------------------
+// SCRIPT PRINCIPAL
+// ========================================
 
 document.addEventListener("DOMContentLoaded", function () {
 
-    // ----------------------------------------
+    // ========================================
     // ELEMENTOS DEL HTML
-    // ----------------------------------------
+    // ========================================
 
-    const horarioDia = document.getElementById("horario-dia");
-    const botonesDia = document.querySelectorAll(".dia");
+    const horarioDia =
+        document.getElementById("horario-dia");
 
-    const botonAgregar = document.getElementById("agregarClase");
-    const ventanaClase = document.getElementById("ventanaClase");
-    const cerrarVentana = document.getElementById("cerrarVentana");
-    const guardarClase = document.getElementById("guardarClase");
+    const botonesDia =
+        document.querySelectorAll(".dia");
+        let diaSeleccionado = "lunes";
 
-    const nombreMateria = document.getElementById("nombreMateria");
-    const horaClase = document.getElementById("horaClase");
-    const diaClase = document.getElementById("diaClase");
+    const botonAgregarClase =
+        document.getElementById("agregarClase");
+
+    const ventanaClase =
+        document.getElementById("ventanaClase");
+
+    const cerrarVentanaClase =
+        document.getElementById("cerrarVentanaClase");
+
+    const guardarClase =
+        document.getElementById("guardarClase");
+
+    const nombreClase =
+        document.getElementById("nombreClase");
+
+    const horaClase =
+        document.getElementById("horaClase");
+
+    const diaClase =
+        document.getElementById("diaClase");
+
 
     const botonAgregarActividad =
         document.getElementById("agregarActividad");
@@ -26,95 +44,140 @@ document.addEventListener("DOMContentLoaded", function () {
     const ventanaActividad =
         document.getElementById("ventanaActividad");
 
-    const cerrarActividad =
-        document.getElementById("cerrarActividad");
+    const cerrarVentanaActividad =
+        document.getElementById(
+            "cerrarVentanaActividad"
+        );
 
     const guardarActividad =
-        document.getElementById("guardarActividad");
+        document.getElementById(
+            "guardarActividad"
+        );
 
     const nombreActividad =
-        document.getElementById("nombreActividad");
-
-    const materiaActividad =
-        document.getElementById("materiaActividad");
+        document.getElementById(
+            "nombreActividad"
+        );
 
     const tipoActividad =
-        document.getElementById("tipoActividad");
+        document.getElementById(
+            "tipoActividad"
+        );
 
     const fechaActividad =
-        document.getElementById("fechaActividad");
+        document.getElementById(
+            "fechaActividad"
+        );
 
     const horaActividad =
-        document.getElementById("horaActividad");
+        document.getElementById(
+            "horaActividad"
+        );
 
-    const descripcionActividad =
-        document.getElementById("descripcionActividad");
 
     const listaActividades =
-        document.getElementById("lista-actividades");
+        document.getElementById(
+            "lista-actividades"
+        );
 
-    const proximoRecordatorio =
-        document.getElementById("proximo-recordatorio");
-
-    const proximaClaseElemento =
-        document.getElementById("proxima-clase");
 
     const fechaHoraElemento =
-        document.getElementById("fecha-hora");
+        document.getElementById(
+            "fecha-hora"
+        );
+
+
+    const proximaClaseElemento =
+        document.getElementById(
+            "proxima-clase"
+        );
+
+
+    const proximoRecordatorio =
+        document.getElementById(
+            "proximo-recordatorio"
+        );
+
 
     const resumenDiaElemento =
-        document.getElementById("resumen-dia");
+        document.getElementById(
+            "resumen-dia"
+        );
 
 
-    // ----------------------------------------
+    const botonNotificaciones =
+        document.getElementById(
+            "activarNotificaciones"
+        );
+
+const botonNotificacionesAjustes =
+    document.getElementById(
+        "ajustesNotificaciones"
+    );
+    const formatoHoraElemento =
+    document.getElementById(
+        "formatoHora"
+    );
+
+    // ========================================
+    // VARIABLES
+    // ========================================
+
+    let indiceClaseEditando = null;
+    let diaClaseEditando = null;
+
+    let indiceActividadEditando = null;
+
+
+    // ========================================
     // HORARIO
-    // ----------------------------------------
+    // ========================================
 
-    const horariosPorDefecto = {
+    const horarioPorDefecto = {
 
         lunes: [
             {
-                hora: "7:00 AM",
+                hora: "7:00",
                 materia: "Matemáticas"
             },
             {
-                hora: "8:00 AM",
+                hora: "8:00",
                 materia: "Inglés"
             }
         ],
 
         martes: [
             {
-                hora: "7:00 AM",
+                hora: "7:00",
                 materia: "Español"
             },
             {
-                hora: "9:00 AM",
+                hora: "9:00",
                 materia: "Historia"
             }
         ],
 
         miercoles: [
             {
-                hora: "8:00 AM",
+                hora: "8:00",
                 materia: "Biología"
             }
         ],
 
         jueves: [
             {
-                hora: "7:00 AM",
+                hora: "7:00",
                 materia: "Física"
             },
             {
-                hora: "10:00 AM",
+                hora: "10:00",
                 materia: "Inglés"
             }
         ],
 
         viernes: [
             {
-                hora: "7:00 AM",
+                hora: "7:00",
                 materia: "Matemáticas"
             }
         ]
@@ -122,13 +185,37 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
 
-    // Cargar horario guardado
-    let horarios =
-        JSON.parse(localStorage.getItem("horarios")) ||
-        horariosPorDefecto;
+    let horariosGuardados =
+        localStorage.getItem("horarios");
 
 
-    // Asegurar que todos los días existan
+    let horarios;
+
+
+    if (horariosGuardados) {
+
+        try {
+
+            horarios =
+                JSON.parse(horariosGuardados);
+
+        } catch (error) {
+
+            horarios =
+                horarioPorDefecto;
+
+        }
+
+    } else {
+
+        horarios =
+            horarioPorDefecto;
+
+    }
+
+
+    // Asegurar que existan todos los días
+
     const dias = [
         "lunes",
         "martes",
@@ -137,410 +224,960 @@ document.addEventListener("DOMContentLoaded", function () {
         "viernes"
     ];
 
+
     dias.forEach(function (dia) {
 
         if (!Array.isArray(horarios[dia])) {
-            horarios[dia] = [];
-        }
 
-        // Eliminar datos antiguos de aula
-        horarios[dia].forEach(function (clase) {
-            delete clase.aula;
-        });
+            horarios[dia] = [];
+
+        }
 
     });
 
 
-    localStorage.setItem(
-        "horarios",
-        JSON.stringify(horarios)
-    );
-
-
-    let indiceClaseEditando = null;
-    let diaClaseEditando = null;
-
-
-    // ----------------------------------------
-    // CONVERTIR HORA A MINUTOS
-    // ----------------------------------------
-
-    function convertirHoraAMinutos(horaTexto) {
-
-        if (!horaTexto) {
-            return 0;
-        }
-
-        horaTexto = horaTexto.trim();
-
-        // Formato 12 horas: 7:00 AM
-        if (
-            horaTexto.includes("AM") ||
-            horaTexto.includes("PM")
-        ) {
-
-            const partes = horaTexto.split(" ");
-            const tiempo = partes[0];
-            const periodo = partes[1];
-
-            const partesHora = tiempo.split(":");
-
-            let horas = parseInt(partesHora[0]);
-            let minutos = parseInt(partesHora[1]);
-
-            if (periodo === "PM" && horas !== 12) {
-                horas += 12;
-            }
-
-            if (periodo === "AM" && horas === 12) {
-                horas = 0;
-            }
-
-            return horas * 60 + minutos;
-        }
-
-
-        // Formato 24 horas: 07:00
-        const partesHora = horaTexto.split(":");
-
-        const horas = parseInt(partesHora[0]);
-        const minutos = parseInt(partesHora[1]);
-
-        return horas * 60 + minutos;
-    }
-
-
-    // ----------------------------------------
-    // CONVERTIR HORA PARA INPUT TIME
-    // ----------------------------------------
-
-    function convertirHoraAInput(horaTexto) {
-
-        if (!horaTexto) {
-            return "";
-        }
-
-        horaTexto = horaTexto.trim();
-
-        if (
-            horaTexto.includes("AM") ||
-            horaTexto.includes("PM")
-        ) {
-
-            const partes = horaTexto.split(" ");
-            const tiempo = partes[0];
-            const periodo = partes[1];
-
-            const partesHora = tiempo.split(":");
-
-            let horas = parseInt(partesHora[0]);
-            const minutos = parseInt(partesHora[1]);
-
-            if (periodo === "PM" && horas !== 12) {
-                horas += 12;
-            }
-
-            if (periodo === "AM" && horas === 12) {
-                horas = 0;
-            }
-
-            return String(horas).padStart(2, "0") +
-                ":" +
-                String(minutos).padStart(2, "0");
-        }
-
-        return horaTexto;
-    }
-
-
-    // ----------------------------------------
+    // ========================================
     // MOSTRAR HORARIO
-    // ----------------------------------------
+    // ========================================
 
-function formatearHora(hora) {
-
-    if (!hora) {
-        return "";
-    }
-
-    const partes = hora.split(":");
-
-    let horas = parseInt(partes[0]);
-    const minutos = partes[1];
-
-    const periodo = horas >= 12 ? "PM" : "AM";
-
-    if (horas === 0) {
-        horas = 12;
-    } else if (horas > 12) {
-        horas -= 12;
-    }
-
-    return `${horas}:${minutos} ${periodo}`;
-}
     function mostrarHorario(dia) {
 
         horarioDia.innerHTML = "";
 
-        if (!horarios[dia]) {
-            horarios[dia] = [];
-        }
 
-        horarios[dia].sort(function (a, b) {
+        const clases =
+            horarios[dia] || [];
+
+
+        if (clases.length === 0) {
+
+    horarioDia.innerHTML = `
+
+        <div class="estado-vacio">
+
+            <span class="estado-icono">
+                📚
+            </span>
+
+            <strong>Día libre</strong>
+
+            <span>
+                No tienes clases registradas
+                para este día.
+            </span>
+
+        </div>
+
+    `;
+
+    return;
+
+}
+
+
+        clases.sort(function (a, b) {
 
             return convertirHoraAMinutos(a.hora) -
-                convertirHoraAMinutos(b.hora);
+                   convertirHoraAMinutos(b.hora);
 
         });
 
 
-        horarios[dia].forEach(function (clase) {
+        clases.forEach(function (clase) {
 
             const elemento =
                 document.createElement("div");
 
-            elemento.className = "clase";
+
+            elemento.className =
+                "clase";
+
 
             elemento.innerHTML = `
+
                 <div class="hora">
-    ${formatearHora(clase.hora)}
-</div>
+                    ${formatearHora(clase.hora)}
+                </div>
 
                 <div class="info-clase">
-                    <h3>${clase.materia}</h3>
+
+                    <h3>
+                        ${clase.materia}
+                    </h3>
+
                 </div>
 
                 <div class="acciones-clase">
-                    <button class="editar-clase">✏️</button>
-                    <button class="eliminar-clase">🗑️</button>
+
+                    <button
+                        class="editar-clase"
+                        type="button"
+                    >
+                        ✏️
+                    </button>
+
+                    <button
+                        class="eliminar-clase"
+                        type="button"
+                    >
+                        🗑️
+                    </button>
+
                 </div>
+
             `;
 
 
-            // ELIMINAR CLASE
-            const botonEliminar =
-                elemento.querySelector(".eliminar-clase");
+            // EDITAR
 
-            botonEliminar.addEventListener(
-                "click",
-                function () {
-
-                    const confirmar = confirm(
-                        "¿Quieres eliminar esta clase?"
-                    );
-
-                    if (!confirmar) {
-                        return;
-                    }
-
-                    const indice =
-                        horarios[dia].indexOf(clase);
-
-                    horarios[dia].splice(indice, 1);
-
-                    localStorage.setItem(
-                        "horarios",
-                        JSON.stringify(horarios)
-                    );
-
-                    mostrarHorario(dia);
-                    mostrarProximaClase();
-                    mostrarResumenDia();
-
-                }
-            );
-
-
-            // EDITAR CLASE
             const botonEditar =
-                elemento.querySelector(".editar-clase");
+                elemento.querySelector(
+                    ".editar-clase"
+                );
+
 
             botonEditar.addEventListener(
                 "click",
                 function () {
 
                     const indice =
-                        horarios[dia].indexOf(clase);
+                        horarios[dia].indexOf(
+                            clase
+                        );
 
-                    indiceClaseEditando = indice;
-                    diaClaseEditando = dia;
 
-                    nombreMateria.value =
+                    indiceClaseEditando =
+                        indice;
+
+                    diaClaseEditando =
+                        dia;
+
+
+                    nombreClase.value =
                         clase.materia;
 
                     horaClase.value =
-                        convertirHoraAInput(clase.hora);
+                        convertirHoraAInput(
+                            clase.hora
+                        );
 
-                    diaClase.value = dia;
+                    diaClase.value =
+                        dia;
 
-                    ventanaClase.style.display = "flex";
+
+                    ventanaClase.style.display =
+                        "flex";
 
                 }
             );
 
 
-            horarioDia.appendChild(elemento);
+            // ELIMINAR
+
+            const botonEliminar =
+                elemento.querySelector(
+                    ".eliminar-clase"
+                );
+
+
+            botonEliminar.addEventListener(
+                "click",
+                function () {
+
+                    const confirmar =
+                        confirm(
+                            "¿Quieres eliminar esta clase?"
+                        );
+
+
+                    if (!confirmar) {
+                        return;
+                    }
+
+
+                    const indice =
+                        horarios[dia].indexOf(
+                            clase
+                        );
+
+
+                    horarios[dia].splice(
+                        indice,
+                        1
+                    );
+
+
+                    guardarHorarios();
+
+
+                    mostrarHorario(dia);
+
+                    actualizarTodo();
+
+                }
+            );
+
+
+            horarioDia.appendChild(
+                elemento
+            );
 
         });
 
     }
 
 
-    // ----------------------------------------
-    // CAMBIAR DE DÍA
-    // ----------------------------------------
+    // ========================================
+    // CAMBIAR DÍA
+    // ========================================
 
-    botonesDia.forEach(function (boton) {
+botonesDia.forEach(function (boton) {
+    boton.addEventListener("click", function () {
 
-        boton.addEventListener(
-            "click",
-            function () {
+        botonesDia.forEach(function (otroBoton) {
+            otroBoton.classList.remove("activo");
+        });
 
-                botonesDia.forEach(function (b) {
+        boton.classList.add("activo");
 
-                    b.classList.remove("activo");
+        diaSeleccionado = boton.dataset.dia;
 
-                });
-
-                boton.classList.add("activo");
-
-                const diaSeleccionado =
-                    boton.dataset.dia;
-
-                mostrarHorario(diaSeleccionado);
-
-            }
-        );
-
+        mostrarHorario(diaSeleccionado);
     });
+});
 
 
-    // ----------------------------------------
+    // ========================================
     // AGREGAR CLASE
-    // ----------------------------------------
+    // ========================================
 
-    botonAgregar.addEventListener(
+    botonAgregarClase.addEventListener(
         "click",
         function () {
 
-            indiceClaseEditando = null;
-            diaClaseEditando = null;
+            indiceClaseEditando =
+                null;
 
-            nombreMateria.value = "";
+            diaClaseEditando =
+                null;
+
+            nombreClase.value = "";
+
             horaClase.value = "";
 
-            ventanaClase.style.display = "flex";
+            ventanaClase.style.display =
+                "flex";
 
         }
     );
 
 
-    // ----------------------------------------
-    // CERRAR VENTANA DE CLASE
-    // ----------------------------------------
+    // ========================================
+    // CERRAR VENTANA CLASE
+    // ========================================
 
-    cerrarVentana.addEventListener(
+    cerrarVentanaClase.addEventListener(
         "click",
         function () {
 
-            ventanaClase.style.display = "none";
-
-            indiceClaseEditando = null;
-            diaClaseEditando = null;
+            ventanaClase.style.display =
+                "none";
 
         }
     );
 
 
-    // ----------------------------------------
+    // ========================================
     // GUARDAR CLASE
-    // ----------------------------------------
+    // ========================================
 
     guardarClase.addEventListener(
         "click",
         function () {
 
             const materia =
-                nombreMateria.value.trim();
+                nombreClase.value.trim();
 
             const hora =
                 horaClase.value;
 
             const dia =
                 diaClase.value;
+                diaSeleccionado = dia;
 
 
-            if (materia === "" || hora === "") {
+            if (
+                materia === "" ||
+                hora === ""
+            ) {
 
                 alert(
                     "Completa todos los campos 📚"
                 );
 
                 return;
+
             }
+
+
+            const nuevaClase = {
+
+                hora: hora,
+
+                materia: materia
+
+            };
 
 
             // NUEVA CLASE
-            if (indiceClaseEditando === null) {
 
-                horarios[dia].push({
-                    hora: hora,
-                    materia: materia
-                });
+            if (
+                indiceClaseEditando === null
+            ) {
+
+                horarios[dia].push(
+                    nuevaClase
+                );
 
             }
 
+
             // EDITAR CLASE
+
             else {
 
-                horarios[diaClaseEditando].splice(
+                horarios[
+                    diaClaseEditando
+                ].splice(
                     indiceClaseEditando,
                     1
                 );
 
-                horarios[dia].push({
-                    hora: hora,
-                    materia: materia
-                });
 
-                indiceClaseEditando = null;
-                diaClaseEditando = null;
+                horarios[dia].push(
+                    nuevaClase
+                );
+
+
+                indiceClaseEditando =
+                    null;
+
+                diaClaseEditando =
+                    null;
 
             }
 
 
-            localStorage.setItem(
-                "horarios",
-                JSON.stringify(horarios)
-            );
+            guardarHorarios();
 
 
-            ventanaClase.style.display = "none";
+            ventanaClase.style.display =
+                "none";
 
-            nombreMateria.value = "";
+
+            nombreClase.value = "";
+
             horaClase.value = "";
 
 
+            // Activar día seleccionado
+
+            botonesDia.forEach(
+                function (boton) {
+
+                    boton.classList.remove(
+                        "activo"
+                    );
+
+
+                    if (
+                        boton.dataset.dia ===
+                        dia
+                    ) {
+
+                        boton.classList.add(
+                            "activo"
+                        );
+
+                    }
+
+                }
+            );
+
+
             mostrarHorario(dia);
-            mostrarProximaClase();
-            mostrarResumenDia();
+
+            actualizarTodo();
+
+        }
+    );
 
 
-            alert(
-                "¡Clase guardada correctamente! 🎉"
+    // ========================================
+    // GUARDAR HORARIOS
+    // ========================================
+
+    function guardarHorarios() {
+
+        localStorage.setItem(
+            "horarios",
+            JSON.stringify(horarios)
+        );
+
+    }
+
+
+    // ========================================
+    // ACTIVIDADES
+    // ========================================
+
+    function obtenerActividades() {
+
+        return (
+            JSON.parse(
+                localStorage.getItem(
+                    "actividades"
+                )
+            ) || []
+        );
+
+    }
+
+// ========================================
+// MOSTRAR ACTIVIDADES
+// ========================================
+
+function mostrarActividades() {
+
+    const actividades =
+        obtenerActividades();
+
+
+    listaActividades.innerHTML =
+        "";
+
+
+    /*
+     * Guardamos el índice original de cada actividad.
+     * Esto permite editar, completar y eliminar
+     * aunque las actividades se ordenen por fecha.
+     */
+
+    const actividadesPendientes =
+        actividades
+            .map(function (actividad, indice) {
+
+                return {
+                    actividad: actividad,
+                    indiceOriginal: indice
+                };
+
+            })
+            .filter(function (item) {
+
+                return !item.actividad.completada;
+
+            });
+
+
+    /*
+     * No hay actividades pendientes
+     */
+
+    if (
+        actividadesPendientes.length === 0
+    ) {
+
+        listaActividades.innerHTML = `
+
+            <div class="estado-vacio">
+
+                <span class="estado-icono">
+                    📝
+                </span>
+
+                <strong>
+                    No hay actividades pendientes
+                </strong>
+
+                <span>
+                    Aquí aparecerán tus tareas,
+                    exámenes y demás actividades.
+                </span>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    /*
+     * Ordenar por fecha y hora
+     */
+
+    actividadesPendientes.sort(
+        function (a, b) {
+
+            return (
+                new Date(
+                    a.actividad.fecha +
+                    "T" +
+                    a.actividad.hora
+                ) -
+                new Date(
+                    b.actividad.fecha +
+                    "T" +
+                    b.actividad.hora
+                )
             );
 
         }
     );
 
 
-    // ----------------------------------------
-    // FECHA Y HORA ACTUAL
-    // ----------------------------------------
+    /*
+     * Crear cada actividad
+     */
+
+    actividadesPendientes.forEach(
+        function (item) {
+
+            const actividad =
+                item.actividad;
+
+
+            const indiceOriginal =
+                item.indiceOriginal;
+
+
+            const tarjeta =
+                document.createElement(
+                    "div"
+                );
+
+
+            tarjeta.className =
+                "tarjeta";
+
+
+            const fecha =
+                new Date(
+                    actividad.fecha +
+                    "T00:00:00"
+                ).toLocaleDateString(
+                    "es-ES",
+                    {
+                        day: "numeric",
+                        month: "long",
+                        year: "numeric"
+                    }
+                );
+
+
+            tarjeta.innerHTML = `
+
+                <h3>
+                    📝 ${actividad.nombre}
+                </h3>
+
+                <p>
+                    📌 ${actividad.tipo}
+                </p>
+
+                <p>
+                    📅 ${fecha}
+                </p>
+
+                <p>
+                    ⏰ ${formatearHora(
+                        actividad.hora
+                    )}
+                </p>
+
+                <button
+                    class="completar-actividad"
+                    type="button"
+                >
+                    ✅ Completar
+                </button>
+
+                <button
+                    class="editar-actividad"
+                    type="button"
+                >
+                    ✏️ Editar
+                </button>
+
+                <button
+                    class="eliminar-actividad"
+                    type="button"
+                >
+                    🗑️ Eliminar
+                </button>
+
+            `;
+
+
+            // ========================================
+            // COMPLETAR
+            // ========================================
+
+            const botonCompletar =
+                tarjeta.querySelector(
+                    ".completar-actividad"
+                );
+
+
+            botonCompletar.addEventListener(
+                "click",
+                function () {
+
+                    const actividadesActualizadas =
+                        obtenerActividades();
+
+
+                    /*
+                     * Usamos el índice original.
+                     */
+
+                    if (
+                        actividadesActualizadas[
+                            indiceOriginal
+                        ]
+                    ) {
+
+                        actividadesActualizadas[
+                            indiceOriginal
+                        ].completada = true;
+
+
+                        localStorage.setItem(
+                            "actividades",
+                            JSON.stringify(
+                                actividadesActualizadas
+                            )
+                        );
+
+
+                        /*
+                         * La actividad desaparece
+                         * automáticamente de la lista.
+                         */
+
+                        mostrarActividades();
+
+                        mostrarProximoRecordatorio();
+
+                        mostrarResumenDia();
+
+                    }
+
+                }
+            );
+
+
+            // ========================================
+            // EDITAR
+            // ========================================
+
+            const botonEditar =
+                tarjeta.querySelector(
+                    ".editar-actividad"
+                );
+
+
+            botonEditar.addEventListener(
+                "click",
+                function () {
+
+                    /*
+                     * Guardamos el índice real
+                     * de la actividad en localStorage.
+                     */
+
+                    indiceActividadEditando =
+                        indiceOriginal;
+
+
+                    nombreActividad.value =
+                        actividad.nombre;
+
+
+                    tipoActividad.value =
+                        actividad.tipo;
+
+
+                    fechaActividad.value =
+                        actividad.fecha;
+
+
+                    horaActividad.value =
+                        actividad.hora;
+
+
+                    ventanaActividad.style.display =
+                        "flex";
+
+                }
+            );
+
+
+            // ========================================
+            // ELIMINAR
+            // ========================================
+
+            const botonEliminar =
+                tarjeta.querySelector(
+                    ".eliminar-actividad"
+                );
+
+
+            botonEliminar.addEventListener(
+                "click",
+                function () {
+
+                    const confirmar =
+                        confirm(
+                            "¿Quieres eliminar esta actividad?"
+                        );
+
+
+                    if (!confirmar) {
+
+                        return;
+
+                    }
+
+
+                    const actividadesActualizadas =
+                        obtenerActividades();
+
+
+                    /*
+                     * Eliminar usando el índice
+                     * original de localStorage.
+                     */
+
+                    if (
+                        actividadesActualizadas[
+                            indiceOriginal
+                        ]
+                    ) {
+
+                        actividadesActualizadas.splice(
+                            indiceOriginal,
+                            1
+                        );
+
+
+                        localStorage.setItem(
+                            "actividades",
+                            JSON.stringify(
+                                actividadesActualizadas
+                            )
+                        );
+
+
+                        mostrarActividades();
+
+                        mostrarProximoRecordatorio();
+
+                        mostrarResumenDia();
+
+                    }
+
+                }
+            );
+
+
+            listaActividades.appendChild(
+                tarjeta
+            );
+
+        }
+    );
+
+}
+
+    // ========================================
+    // ABRIR ACTIVIDADES
+    // ========================================
+
+    botonAgregarActividad.addEventListener(
+        "click",
+        function () {
+
+            indiceActividadEditando =
+                null;
+
+            nombreActividad.value = "";
+
+            tipoActividad.value =
+                "Tarea";
+
+            fechaActividad.value = "";
+
+            horaActividad.value = "";
+
+
+            ventanaActividad.style.display =
+                "flex";
+
+        }
+    );
+
+
+    // ========================================
+    // CERRAR ACTIVIDADES
+    // ========================================
+
+    cerrarVentanaActividad.addEventListener(
+        "click",
+        function () {
+
+            ventanaActividad.style.display =
+                "none";
+
+        }
+    );
+
+
+    // ========================================
+    // GUARDAR ACTIVIDAD
+    // ========================================
+
+    guardarActividad.addEventListener(
+        "click",
+        function () {
+
+            const nombre =
+                nombreActividad.value.trim();
+
+            const tipo =
+                tipoActividad.value;
+
+            const fecha =
+                fechaActividad.value;
+
+            const hora =
+                horaActividad.value;
+
+
+            if (
+                nombre === "" ||
+                fecha === "" ||
+                hora === ""
+            ) {
+
+                alert(
+                    "Completa los campos principales 📝"
+                );
+
+                return;
+
+            }
+
+
+            const actividad = {
+
+                nombre: nombre,
+
+                tipo: tipo,
+
+                fecha: fecha,
+
+                hora: hora,
+
+                completada: false
+
+            };
+
+
+            const actividades =
+                obtenerActividades();
+
+
+            // NUEVA
+
+            if (
+                indiceActividadEditando ===
+                null
+            ) {
+
+                actividades.push(
+                    actividad
+                );
+
+            }
+
+
+            // EDITAR
+
+            else {
+
+                const actividadAnterior =
+                    actividades[
+                        indiceActividadEditando
+                    ];
+
+
+                actividad.completada =
+                    actividadAnterior
+                        .completada || false;
+
+
+                actividades[
+                    indiceActividadEditando
+                ] = actividad;
+
+
+                indiceActividadEditando =
+                    null;
+
+            }
+
+
+            localStorage.setItem(
+                "actividades",
+                JSON.stringify(
+                    actividades
+                )
+            );
+
+
+            ventanaActividad.style.display =
+                "none";
+
+
+            nombreActividad.value = "";
+
+            fechaActividad.value = "";
+
+            horaActividad.value = "";
+
+
+            mostrarActividades();
+
+            mostrarProximoRecordatorio();
+
+            mostrarResumenDia();
+
+        }
+    );
+
+
+    // ========================================
+    // FECHA Y HORA
+    // ========================================
 
     function mostrarFechaHora() {
 
-        const ahora = new Date();
+        const ahora =
+            new Date();
+
 
         const fecha =
             ahora.toLocaleDateString(
@@ -552,6 +1189,7 @@ function formatearHora(hora) {
                     year: "numeric"
                 }
             );
+
 
         const hora =
             ahora.toLocaleTimeString(
@@ -573,13 +1211,15 @@ function formatearHora(hora) {
     }
 
 
-    // ----------------------------------------
+    // ========================================
     // PRÓXIMA CLASE
-    // ----------------------------------------
+    // ========================================
 
     function obtenerProximaClase() {
 
-        const ahora = new Date();
+        const ahora =
+            new Date();
+
 
         const diasSemana = [
             "domingo",
@@ -591,11 +1231,11 @@ function formatearHora(hora) {
             "sabado"
         ];
 
-        const diaActual =
-            diasSemana[ahora.getDay()];
 
-        const clasesHoy =
-            horarios[diaActual] || [];
+        const diaActual =
+            diasSemana[
+                ahora.getDay()
+            ];
 
 
         const horaActual =
@@ -603,504 +1243,226 @@ function formatearHora(hora) {
             ahora.getMinutes();
 
 
-        const clasesFuturas =
-            clasesHoy.filter(function (clase) {
-
-                return convertirHoraAMinutos(
-                    clase.hora
-                ) > horaActual;
-
-            });
-
-
-        clasesFuturas.sort(function (a, b) {
-
-            return convertirHoraAMinutos(a.hora) -
-                convertirHoraAMinutos(b.hora);
-
-        });
-
-
-        return clasesFuturas[0] || null;
-
-    }
-
-
-    function mostrarProximaClase() {
-
-        const clase =
-            obtenerProximaClase();
-
-
-        if (!clase) {
-
-            proximaClaseElemento.innerHTML = `
-                <div class="tarjeta">
-                    <h3>🎉 No tienes más clases hoy</h3>
-                    <p>Has terminado tu horario por hoy.</p>
-                </div>
-            `;
-
-            return;
-        }
-
-
-        proximaClaseElemento.innerHTML = `
-            <div class="tarjeta">
-                <h3>📚 ${clase.materia}</h3>
-                <p>⏰ ${clase.hora}</p>
-            </div>
-        `;
-
-    }
-
-
-    // ----------------------------------------
-    // RESUMEN DEL DÍA
-    // ----------------------------------------
-
-    function mostrarResumenDia() {
-
-        const ahora = new Date();
-
-        const diasSemana = [
-            "domingo",
-            "lunes",
-            "martes",
-            "miercoles",
-            "jueves",
-            "viernes",
-            "sabado"
-        ];
-
-        const diaActual =
-            diasSemana[ahora.getDay()];
-
+        // Primero buscar en el día actual
 
         const clasesHoy =
             horarios[diaActual] || [];
 
 
-        const actividadesGuardadas =
-            JSON.parse(
-                localStorage.getItem("actividades")
-            ) || [];
+        const futuras =
+            clasesHoy.filter(
+                function (clase) {
 
-
-        const fechaHoy =
-            ahora.toISOString().split("T")[0];
-
-
-        const actividadesHoy =
-            actividadesGuardadas.filter(
-                function (actividad) {
-
-                    return actividad.fecha === fechaHoy;
+                    return (
+                        convertirHoraAMinutos(
+                            clase.hora
+                        ) > horaActual
+                    );
 
                 }
             );
 
 
-        let contenido = "";
+        if (futuras.length > 0) {
 
+            futuras.sort(
+                function (a, b) {
 
-        if (
-            clasesHoy.length === 0 &&
-            actividadesHoy.length === 0
-        ) {
-
-            contenido = `
-                <div class="tarjeta">
-                    <h3>🎉 Día tranquilo</h3>
-                    <p>
-                        No tienes clases ni actividades
-                        registradas para hoy.
-                    </p>
-                </div>
-            `;
-
-        }
-
-        else {
-
-            clasesHoy.forEach(function (clase) {
-
-                contenido += `
-                    <div class="tarjeta">
-                        <h3>📚 ${clase.materia}</h3>
-                        <p>🕐 ${clase.hora}</p>
-                    </div>
-                `;
-
-            });
-
-
-            actividadesHoy.forEach(
-                function (actividad) {
-
-                    contenido += `
-                        <div class="tarjeta">
-                            <h3>
-                                📝 ${actividad.nombre}
-                            </h3>
-
-                            <p>
-                                📚 ${actividad.materia}
-                            </p>
-
-                            <p>
-                                ⏰ ${actividad.hora}
-                            </p>
-                        </div>
-                    `;
+                    return (
+                        convertirHoraAMinutos(
+                            a.hora
+                        ) -
+                        convertirHoraAMinutos(
+                            b.hora
+                        )
+                    );
 
                 }
             );
 
+
+            return {
+
+                clase: futuras[0],
+
+                dia: diaActual
+
+            };
+
         }
 
 
-        resumenDiaElemento.innerHTML =
-            contenido;
+        // Buscar días siguientes
 
-    }
-
-
-    // ----------------------------------------
-    // ACTIVIDADES
-    // ----------------------------------------
-
-    let indiceActividadEditando = null;
+        const ordenDias = [
+            "lunes",
+            "martes",
+            "miercoles",
+            "jueves",
+            "viernes"
+        ];
 
 
-    function mostrarActividades() {
+let posicion = ordenDias.indexOf(diaActual);
 
-        const actividadesGuardadas =
-            JSON.parse(
-                localStorage.getItem("actividades")
-            ) || [];
+if (posicion === -1) {
+    posicion = 4;
+}
 
 
-        // Agregar estado a actividades antiguas
-        actividadesGuardadas.forEach(
-            function (actividad) {
+        if (posicion !== -1) {
+
+            for (
+                let i = 1;
+                i <= 5;
+                i++
+            ) {
+
+                const siguiente =
+                    ordenDias[
+                        (
+                            posicion + i
+                        ) % 5
+                    ];
+
 
                 if (
-                    actividad.completada === undefined
+                    horarios[siguiente] &&
+                    horarios[siguiente]
+                        .length > 0
                 ) {
 
-                    actividad.completada = false;
-
-                }
-
-            }
-        );
-
-
-        localStorage.setItem(
-            "actividades",
-            JSON.stringify(actividadesGuardadas)
-        );
+                    const clases =
+                        [
+                            ...horarios[
+                                siguiente
+                            ]
+                        ];
 
 
-        listaActividades.innerHTML = "";
+                    clases.sort(
+                        function (a, b) {
 
+                            return (
+                                convertirHoraAMinutos(
+                                    a.hora
+                                ) -
+                                convertirHoraAMinutos(
+                                    b.hora
+                                )
+                            );
 
-        actividadesGuardadas.sort(
-            function (a, b) {
-
-                return new Date(
-                    a.fecha + "T" + a.hora
-                ) -
-                new Date(
-                    b.fecha + "T" + b.hora
-                );
-
-            }
-        );
-
-
-        actividadesGuardadas.forEach(
-            function (actividad) {
-
-                const tarjeta =
-                    document.createElement("div");
-
-                tarjeta.className = "tarjeta";
-
-
-                const fecha =
-                    new Date(
-                        actividad.fecha +
-                        "T00:00:00"
-                    ).toLocaleDateString(
-                        "es-ES",
-                        {
-                            day: "numeric",
-                            month: "long",
-                            year: "numeric"
                         }
                     );
 
 
-                tarjeta.innerHTML = `
+                    return {
+
+                        clase: clases[0],
+
+                        dia: siguiente
+
+                    };
+
+                }
+
+            }
+
+        }
+
+
+        return null;
+
+    }
+
+
+    // ========================================
+    // MOSTRAR PRÓXIMA CLASE
+    // ========================================
+
+    function mostrarProximaClase() {
+
+        const resultado =
+            obtenerProximaClase();
+
+
+        if (!resultado) {
+
+            proximaClaseElemento.innerHTML = `
+
+                <div class="tarjeta">
+
                     <h3>
-                        📝 ${actividad.nombre}
+                        🎉 No hay clases próximas
                     </h3>
 
                     <p>
-                        📚 ${actividad.materia}
+                        No tienes clases
+                        registradas.
                     </p>
 
-                    <p>
-                        📅 ${fecha}
-                        · ⏰ ${actividad.hora}
-                    </p>
+                </div>
 
-                    <p>
-                        📌 ${actividad.tipo}
-                    </p>
+            `;
 
-                    ${
-                        actividad.descripcion
-                        ? `<p>${actividad.descripcion}</p>`
-                        : ""
-                    }
+            return;
 
-                    <button class="completar-actividad">
-                        ${
-                            actividad.completada
-                            ? "↩️ Pendiente"
-                            : "✅ Completar"
-                        }
-                    </button>
+        }
 
-                    <button class="eliminar-actividad">
-                        🗑️ Eliminar
-                    </button>
 
-                    <button class="editar-actividad">
-                        ✏️ Editar
-                    </button>
-                `;
+        proximaClaseElemento.innerHTML = `
 
+            <div class="tarjeta">
 
-                // COMPLETAR
-                const botonCompletar =
-                    tarjeta.querySelector(
-                        ".completar-actividad"
-                    );
+                <h3>
+                    📚 ${resultado.clase.materia}
+                </h3>
 
+                <p>
+                    ⏰ ${formatearHora(
+                        resultado.clase.hora
+                    )}
+                </p>
 
-                botonCompletar.addEventListener(
-                    "click",
-                    function () {
+                <p>
+                    📅 ${capitalizar(
+                        resultado.dia
+                    )}
+                </p>
 
-                        const actividadesActualizadas =
-                            JSON.parse(
-                                localStorage.getItem(
-                                    "actividades"
-                                )
-                            ) || [];
+            </div>
 
-
-                        const indice =
-                            actividadesActualizadas.indexOf(
-                                actividad
-                            );
-
-
-                        if (indice === -1) {
-                            return;
-                        }
-
-
-                        actividadesActualizadas[
-                            indice
-                        ].completada =
-                            !actividadesActualizadas[
-                                indice
-                            ].completada;
-
-
-                        localStorage.setItem(
-                            "actividades",
-                            JSON.stringify(
-                                actividadesActualizadas
-                            )
-                        );
-
-
-                        mostrarActividades();
-                        mostrarProximoRecordatorio();
-                        mostrarResumenDia();
-
-                    }
-                );
-
-
-                // ELIMINAR
-                const botonEliminar =
-                    tarjeta.querySelector(
-                        ".eliminar-actividad"
-                    );
-
-
-                botonEliminar.addEventListener(
-                    "click",
-                    function () {
-
-                        const confirmar =
-                            confirm(
-                                "¿Quieres eliminar esta actividad?"
-                            );
-
-
-                        if (!confirmar) {
-                            return;
-                        }
-
-
-                        const actividadesActualizadas =
-                            JSON.parse(
-                                localStorage.getItem(
-                                    "actividades"
-                                )
-                            ) || [];
-
-
-                        const indice =
-                            actividadesActualizadas.indexOf(
-                                actividad
-                            );
-
-
-                        if (indice !== -1) {
-
-                            actividadesActualizadas.splice(
-                                indice,
-                                1
-                            );
-
-                        }
-
-
-                        localStorage.setItem(
-                            "actividades",
-                            JSON.stringify(
-                                actividadesActualizadas
-                            )
-                        );
-
-
-                        mostrarActividades();
-                        mostrarProximoRecordatorio();
-                        mostrarResumenDia();
-
-                    }
-                );
-
-
-// EDITAR
-                const botonEditar =
-                    tarjeta.querySelector(
-                        ".editar-actividad"
-                    );
-
-
-                botonEditar.addEventListener(
-                    "click",
-                    function () {
-
-                        const actividadesActualizadas =
-                            JSON.parse(
-                                localStorage.getItem(
-                                    "actividades"
-                                )
-                            ) || [];
-
-
-                        const indice =
-                            actividadesActualizadas.indexOf(
-                                actividad
-                            );
-
-
-                        if (indice === -1) {
-                            return;
-                        }
-
-
-                        indiceActividadEditando =
-                            indice;
-
-
-                        const actividadEditar =
-                            actividadesActualizadas[
-                                indice
-                            ];
-
-
-                        nombreActividad.value =
-                            actividadEditar.nombre;
-
-                        materiaActividad.value =
-                            actividadEditar.materia;
-
-                        tipoActividad.value =
-                            actividadEditar.tipo;
-
-                        fechaActividad.value =
-                            actividadEditar.fecha;
-
-                        horaActividad.value =
-                            actividadEditar.hora;
-
-                        descripcionActividad.value =
-                            actividadEditar.descripcion || "";
-
-
-                        ventanaActividad.style.display =
-                            "flex";
-
-                    }
-                );
-
-
-                listaActividades.appendChild(
-                    tarjeta
-                );
-
-            }
-        );
+        `;
 
     }
 
 
-    // ----------------------------------------
-    // PRÓXIMA ACTIVIDAD
-    // ----------------------------------------
+    // ========================================
+    // PRÓXIMO RECORDATORIO
+    // ========================================
 
-    function obtenerProximaActividad() {
+    function mostrarProximoRecordatorio() {
 
-        const actividadesGuardadas =
-            JSON.parse(
-                localStorage.getItem("actividades")
-            ) || [];
+        const actividades =
+            obtenerActividades();
 
 
-        const ahora = new Date();
+        const ahora =
+            new Date();
 
 
-        const actividadesFuturas =
-            actividadesGuardadas.filter(
+        const futuras =
+            actividades.filter(
                 function (actividad) {
 
-                    if (actividad.completada) {
+                    if (
+                        actividad.completada
+                    ) {
                         return false;
                     }
 
-                    const fechaActividad =
+
+                    const fecha =
                         new Date(
                             actividad.fecha +
                             "T" +
@@ -1108,56 +1470,57 @@ function formatearHora(hora) {
                         );
 
 
-                    return fechaActividad >= ahora;
+                    return fecha >= ahora;
 
                 }
             );
 
 
-        actividadesFuturas.sort(
+        futuras.sort(
             function (a, b) {
 
-                return new Date(
-                    a.fecha + "T" + a.hora
-                ) -
-                new Date(
-                    b.fecha + "T" + b.hora
+                return (
+                    new Date(
+                        a.fecha +
+                        "T" +
+                        a.hora
+                    ) -
+                    new Date(
+                        b.fecha +
+                        "T" +
+                        b.hora
+                    )
                 );
 
             }
         );
 
 
-        return actividadesFuturas[0] || null;
-
-    }
-
-
-    // ----------------------------------------
-    // MOSTRAR RECORDATORIO
-    // ----------------------------------------
-
-    function mostrarProximoRecordatorio() {
-
         const actividad =
-            obtenerProximaActividad();
+            futuras[0];
 
 
         if (!actividad) {
 
             proximoRecordatorio.innerHTML = `
+
                 <div class="tarjeta">
+
                     <h3>
-                        🎉 No tienes actividades próximas
+                        🎉 Todo al día
                     </h3>
 
                     <p>
-                        Todo está al día.
+                        No tienes actividades
+                        pendientes próximas.
                     </p>
+
                 </div>
+
             `;
 
             return;
+
         }
 
 
@@ -1176,205 +1539,442 @@ function formatearHora(hora) {
 
 
         proximoRecordatorio.innerHTML = `
+
             <div class="tarjeta">
+
                 <h3>
                     📝 ${actividad.nombre}
                 </h3>
 
                 <p>
-                    📚 ${actividad.materia}
+                    📌 ${actividad.tipo}
                 </p>
 
                 <p>
                     📅 ${fecha}
-                    · ⏰ ${actividad.hora}
                 </p>
+
+                <p>
+                    ⏰ ${formatearHora(
+                        actividad.hora
+                    )}
+                </p>
+
             </div>
+
         `;
 
     }
 
 
-    // ----------------------------------------
-    // AGREGAR ACTIVIDAD
-    // ----------------------------------------
-
-    botonAgregarActividad.addEventListener(
-        "click",
-        function () {
-
-            indiceActividadEditando = null;
-
-            nombreActividad.value = "";
-            materiaActividad.value = "";
-            fechaActividad.value = "";
-            horaActividad.value = "";
-            descripcionActividad.value = "";
-
-            ventanaActividad.style.display =
-                "flex";
-
-        }
-    );
-
-
-    //
-    
-    
-    // CERRAR ACTIVIDAD
+    // ========================================
+    // RESUMEN DEL DÍA
     // ========================================
 
-    cerrarActividad.addEventListener(
-        "click",
-        function () {
+    function mostrarResumenDia() {
 
-            ventanaActividad.style.display =
-                "none";
-
-            indiceActividadEditando = null;
-
-        }
-    );
+        const ahora =
+            new Date();
 
 
-    // ========================================
-    // GUARDAR ACTIVIDAD
-    // ========================================
-
-    guardarActividad.addEventListener(
-        "click",
-        function () {
-
-            const nombre =
-                nombreActividad.value.trim();
-
-            const materia =
-                materiaActividad.value.trim();
-
-            const tipo =
-                tipoActividad.value;
-
-            const fecha =
-                fechaActividad.value;
-
-            const hora =
-                horaActividad.value;
-
-            const descripcion =
-                descripcionActividad.value.trim();
+        const diasSemana = [
+            "domingo",
+            "lunes",
+            "martes",
+            "miercoles",
+            "jueves",
+            "viernes",
+            "sabado"
+        ];
 
 
-            if (
-                nombre === "" ||
-                materia === "" ||
-                fecha === "" ||
-                hora === ""
-            ) {
-
-                alert(
-                    "Completa los campos principales 📝"
-                );
-
-                return;
-
-            }
+        const diaActual =
+            diasSemana[
+                ahora.getDay()
+            ];
 
 
-            const actividadesGuardadas =
-                JSON.parse(
-                    localStorage.getItem(
-                        "actividades"
-                    )
-                ) || [];
+        const clases =
+            horarios[diaActual] || [];
 
 
-            let completada = false;
+const año = ahora.getFullYear();
+const mes = String(ahora.getMonth() + 1).padStart(2, "0");
+const dia = String(ahora.getDate()).padStart(2, "0");
+
+const fechaActual = `${año}-${mes}-${dia}`;
 
 
-            // Si estamos editando,
-            // conservar si ya estaba completada
-            if (
-                indiceActividadEditando !== null &&
-                actividadesGuardadas[
-                    indiceActividadEditando
-                ]
-            ) {
+const actividades =
+    obtenerActividades()
+        .filter(
+            function (actividad) {
 
-                completada =
-                    actividadesGuardadas[
-                        indiceActividadEditando
-                    ].completada || false;
-
-            }
-
-
-            const actividad = {
-
-                nombre: nombre,
-                materia: materia,
-                tipo: tipo,
-                fecha: fecha,
-                hora: hora,
-                descripcion: descripcion,
-                completada: completada
-
-            };
-
-
-            // NUEVA ACTIVIDAD
-            if (
-                indiceActividadEditando === null
-            ) {
-
-                actividadesGuardadas.push(
-                    actividad
+                return (
+                    actividad.fecha ===
+                    fechaActual &&
+                    !actividad.completada
                 );
 
             }
+        );
 
-            // EDITAR ACTIVIDAD
-            else {
 
-                actividadesGuardadas[
-                    indiceActividadEditando
-                ] = actividad;
+        let contenido =
+            "";
 
-                indiceActividadEditando = null;
+
+        if (
+            clases.length === 0 &&
+            actividades.length === 0
+        ) {
+
+            contenido = `
+
+                <div class="tarjeta">
+
+                    <h3>
+                        🎉 Día tranquilo
+                    </h3>
+
+                    <p>
+                        No tienes clases ni
+                        actividades para hoy.
+                    </p>
+
+                </div>
+
+            `;
+
+        } else {
+
+            clases.forEach(
+                function (clase) {
+
+                    contenido += `
+
+                        <div class="tarjeta">
+
+                            <h3>
+                                📚 ${clase.materia}
+                            </h3>
+
+                            <p>
+                                ⏰ ${formatearHora(
+                                    clase.hora
+                                )}
+                            </p>
+
+                        </div>
+
+                    `;
+
+                }
+            );
+
+
+            actividades.forEach(
+                function (actividad) {
+
+                    contenido += `
+
+                        <div class="tarjeta">
+
+                            <h3>
+                                📝 ${actividad.nombre}
+                            </h3>
+
+                            <p>
+                                📌 ${actividad.tipo}
+                            </p>
+
+                            <p>
+                                ⏰ ${formatearHora(
+                                    actividad.hora
+                                )}
+                            </p>
+
+                        </div>
+
+                    `;
+
+                }
+            );
+
+        }
+
+
+        resumenDiaElemento.innerHTML =
+            contenido;
+
+    }
+
+
+    // ========================================
+    // CONVERSIÓN DE HORAS
+    // ========================================
+
+    function convertirHoraAMinutos(hora) {
+
+        if (!hora) {
+            return 0;
+        }
+
+
+        if (
+            hora.includes("AM") ||
+            hora.includes("PM")
+        ) {
+
+            const partes =
+                hora.split(" ");
+
+
+            const tiempo =
+                partes[0];
+
+            const periodo =
+                partes[1];
+
+
+            const partesHora =
+                tiempo.split(":");
+
+
+            let horas =
+                parseInt(
+                    partesHora[0]
+                );
+
+
+            const minutos =
+                parseInt(
+                    partesHora[1]
+                );
+
+
+            if (
+                periodo === "PM" &&
+                horas !== 12
+            ) {
+
+                horas += 12;
 
             }
 
 
-            localStorage.setItem(
-                "actividades",
-                JSON.stringify(
-                    actividadesGuardadas
-                )
-            );
+            if (
+                periodo === "AM" &&
+                horas === 12
+            ) {
+
+                horas = 0;
+
+            }
 
 
-            ventanaActividad.style.display =
-                "none";
-
-
-            nombreActividad.value = "";
-            materiaActividad.value = "";
-            fechaActividad.value = "";
-            horaActividad.value = "";
-            descripcionActividad.value = "";
-
-
-            mostrarActividades();
-            mostrarProximoRecordatorio();
-            mostrarResumenDia();
-
-
-            alert(
-                "¡Actividad guardada correctamente! 🎉"
+            return (
+                horas * 60 +
+                minutos
             );
 
         }
-    );
 
+
+        const partes =
+            hora.split(":");
+
+
+        return (
+            parseInt(partes[0]) * 60 +
+            parseInt(partes[1])
+        );
+
+    }
+
+
+    // ========================================
+    // CONVERTIR HORA A INPUT
+    // ========================================
+
+    function convertirHoraAInput(hora) {
+
+        if (!hora) {
+            return "";
+        }
+
+
+        if (
+            hora.includes("AM") ||
+            hora.includes("PM")
+        ) {
+
+            const minutos =
+                convertirHoraAMinutos(
+                    hora
+                );
+
+
+            const horas =
+                Math.floor(
+                    minutos / 60
+                );
+
+
+            const mins =
+                minutos % 60;
+
+
+            return (
+                String(horas)
+                    .padStart(2, "0") +
+                ":" +
+                String(mins)
+                    .padStart(2, "0")
+            );
+
+        }
+
+
+        return hora;
+
+    }
+
+
+
+
+    // ========================================
+    // CAPITALIZAR
+    // ========================================
+
+    function capitalizar(texto) {
+
+        if (!texto) {
+            return "";
+        }
+
+
+        return (
+            texto.charAt(0)
+                .toUpperCase() +
+            texto.slice(1)
+        );
+
+    }
+
+// ========================================
+// AJUSTES
+// ========================================
+
+const abrirAjustes =
+    document.getElementById("abrirAjustes");
+
+const seccionAjustes =
+    document.getElementById("ajustes");
+
+const cerrarAjustes =
+    document.getElementById("cerrarAjustes");
+
+
+abrirAjustes.addEventListener(
+    "click",
+    function () {
+
+        ocultarTodo();
+
+        seccionAjustes.style.display =
+            "block";
+
+    }
+);
+
+
+cerrarAjustes.addEventListener(
+    "click",
+    function () {
+
+        mostrarInicio();
+
+    }
+);
+
+// ========================================
+// FORMATEAR HORA
+// ========================================
+
+function formatearHora(hora) {
+
+    if (!hora) {
+        return "";
+    }
+
+    const minutos =
+        convertirHoraAMinutos(
+            hora
+        );
+
+    let horas =
+        Math.floor(
+            minutos / 60
+        );
+
+    const mins =
+        minutos % 60;
+
+    // ========================================
+    // FORMATO DE 24 HORAS
+    // ========================================
+
+    const formatoGuardado =
+        localStorage.getItem(
+            "formatoHora"
+        ) || "12";
+
+    if (formatoGuardado === "24") {
+
+        return (
+            String(horas).padStart(
+                2,
+                "0"
+            ) +
+            ":" +
+            String(mins).padStart(
+                2,
+                "0"
+            )
+        );
+    }
+
+    // ========================================
+    // FORMATO DE 12 HORAS
+    // ========================================
+
+    const periodo =
+        horas >= 12
+        ? "PM"
+        : "AM";
+
+    if (horas === 0) {
+
+        horas = 12;
+
+    } else if (horas > 12) {
+
+        horas -= 12;
+
+    }
+
+    return (
+        horas +
+        ":" +
+        String(mins).padStart(
+            2,
+            "0"
+        ) +
+        " " +
+        periodo
+    );
+}
 
     // ========================================
     // NAVEGACIÓN
@@ -1386,81 +1986,125 @@ function formatearHora(hora) {
         );
 
 
-    // Todo esto pertenece a INICIO
-    const seccionesInicio = [
-
-        document.getElementById("inicio"),
-
-        document.querySelector(
-            ".recordatorios"
-        ),
-
-        document.querySelector(
-            ".proxima-clase"
-        ),
-
-        document.querySelector(
-            ".resumen-dia"
-        )
-
-    ];
-
+    const seccionInicio =
+        document.getElementById(
+            "inicio"
+        );
 
     const seccionHorario =
-        document.getElementById("horario");
-
+        document.getElementById(
+            "horario"
+        );
 
     const seccionActividades =
-        document.getElementById("actividades");
+        document.getElementById(
+            "actividades"
+        );
+
+    const seccionRecordatorios =
+        document.querySelector(
+            ".recordatorios"
+        );
+
+    const seccionProximaClase =
+        document.querySelector(
+            ".proxima-clase"
+        );
 
 
     const todasLasSecciones = [
 
-        ...seccionesInicio,
+    seccionInicio,
 
-        seccionHorario,
+    seccionHorario,
 
-        seccionActividades
+    seccionActividades,
 
-    ].filter(Boolean);
+    seccionRecordatorios,
+
+    seccionProximaClase,
+
+    seccionAjustes
+
+];
 
 
-    function mostrarSeccion(
-        seccionSeleccionada
-    ) {
+    function ocultarTodo() {
 
-        // Ocultar todo
         todasLasSecciones.forEach(
             function (seccion) {
 
-                seccion.style.display = "none";
+                if (seccion) {
+
+                    seccion.style.display =
+                        "none";
+
+                }
 
             }
         );
 
+    }
 
-        // Mostrar Inicio
-        if (
-            seccionSeleccionada === "inicio"
-        ) {
 
-            seccionesInicio.forEach(
-                function (seccion) {
+    function mostrarInicio() {
 
-                    if (seccion) {
-                        seccion.style.display =
-                            "block";
-                    }
+        ocultarTodo();
+
+
+        seccionInicio.style.display =
+            "block";
+
+        seccionProximaClase.style.display =
+    "none";
+
+seccionRecordatorios.style.display =
+    "none";
+
+
+        botonesNavegacion.forEach(
+            function (boton) {
+
+                boton.classList.remove(
+                    "activo"
+                );
+
+
+                if (
+                    boton.dataset.seccion ===
+                    "inicio"
+                ) {
+
+                    boton.classList.add(
+                        "activo"
+                    );
 
                 }
-            );
+
+            }
+        );
+
+    }
+
+
+    function mostrarSeccion(nombre) {
+
+        ocultarTodo();
+
+
+        if (
+            nombre === "inicio"
+        ) {
+
+            mostrarInicio();
+
+            return;
 
         }
 
 
-        // Mostrar Horario
         if (
-            seccionSeleccionada === "horario"
+            nombre === "horario"
         ) {
 
             seccionHorario.style.display =
@@ -1469,9 +2113,8 @@ function formatearHora(hora) {
         }
 
 
-        // Mostrar Actividades
         if (
-            seccionSeleccionada === "actividades"
+            nombre === "actividades"
         ) {
 
             seccionActividades.style.display =
@@ -1480,7 +2123,6 @@ function formatearHora(hora) {
         }
 
 
-        // Cambiar botón activo
         botonesNavegacion.forEach(
             function (boton) {
 
@@ -1488,9 +2130,10 @@ function formatearHora(hora) {
                     "activo"
                 );
 
+
                 if (
                     boton.dataset.seccion ===
-                    seccionSeleccionada
+                    nombre
                 ) {
 
                     boton.classList.add(
@@ -1521,109 +2164,204 @@ function formatearHora(hora) {
 
         }
     );
+// ========================================
+// BOTONES VOLVER AL INICIO
+// ========================================
 
+const botonesVolver =
+    document.querySelectorAll(".boton-volver");
 
-    // ========================================
-    // INICIAR APP
-    // ========================================
+botonesVolver.forEach(function (boton) {
 
-    mostrarHorario("lunes");
+    boton.addEventListener(
+        "click",
+        function () {
 
-    mostrarActividades();
+            mostrarInicio();
 
-    mostrarProximoRecordatorio();
-
-    mostrarProximaClase();
-
-    mostrarResumenDia();
-
-    mostrarFechaHora();
-
-    mostrarSeccion("inicio");
-
-
-    // ========================================
-    // ACTUALIZACIÓN AUTOMÁTICA
-    // ========================================
-
-    setInterval(
-        mostrarProximoRecordatorio,
-        60000
-    );
-
-    setInterval(
-        mostrarProximaClase,
-        60000
-    );
-
-    setInterval(
-        mostrarResumenDia,
-        60000
-    );
-
-    setInterval(
-        mostrarFechaHora,
-        1000
+        }
     );
 
 });
-// ========================================
-// NOTIFICACIONES
-// ========================================
 
-const botonNotificaciones =
-    document.getElementById(
-        "activarNotificaciones"
+    // ========================================
+    // ACCESOS RÁPIDOS
+    // ========================================
+
+    const accesoHorario =
+        document.getElementById(
+            "accesoHorario"
+        );
+
+    const accesoActividades =
+        document.getElementById(
+            "accesoActividades"
+        );
+
+    const accesoRecordatorios =
+        document.getElementById(
+            "accesoRecordatorios"
+        );
+
+    const accesoProximaClase =
+        document.getElementById(
+            "accesoProximaClase"
+        );
+
+
+    accesoHorario.addEventListener(
+        "click",
+        function () {
+
+            mostrarSeccion(
+                "horario"
+            );
+
+        }
     );
 
-if (botonNotificaciones) {
 
-    botonNotificaciones.addEventListener(
+    accesoActividades.addEventListener(
         "click",
-        async function () {
+        function () {
 
-            if (!("Notification" in window)) {
+            mostrarSeccion(
+                "actividades"
+            );
 
-                alert(
-                    "Este navegador no permite notificaciones."
-                );
+        }
+    );
 
-                return;
-            }
 
-            const permiso =
-                await Notification.requestPermission();
+    accesoRecordatorios.addEventListener(
+        "click",
+        function () {
 
-            if (permiso === "granted") {
+            ocultarTodo();
+
+
+            seccionRecordatorios.style.display =
+                "block";
+
+        }
+    );
+
+
+    accesoProximaClase.addEventListener(
+        "click",
+        function () {
+
+            ocultarTodo();
+
+
+            seccionProximaClase.style.display =
+                "block";
+
+        }
+    );
+
+
+    // ========================================
+    // NOTIFICACIONES
+    // ========================================
+
+    if (botonNotificaciones) {
+
+        botonNotificaciones.addEventListener(
+            "click",
+            async function () {
 
                 if (
-                    "serviceWorker" in navigator
+                    !("Notification" in window)
                 ) {
 
-                    const registro =
-                        await navigator.serviceWorker.ready;
+                    alert(
+                        "Este navegador no permite notificaciones."
+                    );
 
-                    registro.showNotification(
-                        "📚 Organizador Escolar",
-                        {
-                            body:
-                                "¡Las notificaciones funcionan correctamente! 🔔",
-                            icon:
-                                "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
-                            badge:
-                                "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+                    return;
+
+                }
+
+
+                try {
+
+                    const permiso =
+                        await Notification.requestPermission();
+
+
+                    if (
+                        permiso ===
+                        "granted"
+                    ) {
+
+                        if (
+                            "serviceWorker" in
+                            navigator
+                        ) {
+
+                            const registro =
+                                await navigator
+                                    .serviceWorker
+                                    .ready;
+
+
+                            await registro.showNotification(
+                                "📚 Organizador Escolar",
+                                {
+                                    body:
+                                        "¡Las notificaciones funcionan correctamente! 🔔",
+                                    icon:
+                                        "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
+                                    badge:
+                                        "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+                                }
+                            );
+
                         }
+
+
+                        botonNotificaciones.textContent =
+                            "✅ Notificación de prueba enviada";
+
+                    } else {
+
+                        alert(
+                            "No se activaron las notificaciones."
+                        );
+
+                    }
+
+                } catch (error) {
+
+                    alert(
+                        "No se pudo enviar la notificación."
                     );
 
                 }
 
-                botonNotificaciones.textContent =
-                    "✅ Notificación de prueba enviada";
+            }
+        );
+
+    }
+/* ========================================
+   BOTÓN DE NOTIFICACIONES EN AJUSTES
+======================================== */
+
+if (botonNotificacionesAjustes) {
+
+    botonNotificacionesAjustes.addEventListener(
+        "click",
+        function () {
+
+            if (botonNotificaciones) {
+
+                botonNotificaciones.click();
 
             } else {
 
                 alert(
-                    "No se activaron las notificaciones."
+                    "No se encontró el sistema de notificaciones."
                 );
 
             }
@@ -1633,13 +2371,113 @@ if (botonNotificaciones) {
 
 }
 // ========================================
-// REGISTRAR SERVICE WORKER
+// FORMATO DE HORA
 // ========================================
 
-if ("serviceWorker" in navigator) {
+if (formatoHoraElemento) {
 
-    navigator.serviceWorker.register(
-        "service-worker.js"
+    const formatoGuardado =
+        localStorage.getItem(
+            "formatoHora"
+        );
+
+    if (formatoGuardado) {
+
+        formatoHoraElemento.value =
+            formatoGuardado;
+
+    }
+
+    formatoHoraElemento.addEventListener(
+        "change",
+        function () {
+
+            localStorage.setItem(
+                "formatoHora",
+                formatoHoraElemento.value
+            );
+
+            mostrarHorario(diaSeleccionado);
+            mostrarActividades();
+            mostrarProximaClase();
+            mostrarProximoRecordatorio();
+            mostrarResumenDia();
+
+        }
     );
 
 }
+
+    // ========================================
+    // ACTUALIZAR TODO
+    // ========================================
+
+    function actualizarTodo() {
+
+        mostrarActividades();
+
+        mostrarProximoRecordatorio();
+
+        mostrarProximaClase();
+
+        mostrarResumenDia();
+
+        mostrarFechaHora();
+
+    }
+
+
+    // ========================================
+    // INICIO
+    // ========================================
+
+    mostrarHorario("lunes");
+
+    actualizarTodo();
+
+    mostrarInicio();
+
+
+    // ========================================
+    // ACTUALIZACIÓN AUTOMÁTICA
+    // ========================================
+
+    setInterval(
+        mostrarFechaHora,
+        1000
+    );
+
+
+    setInterval(
+        mostrarProximaClase,
+        60000
+    );
+
+
+    setInterval(
+        mostrarProximoRecordatorio,
+        60000
+    );
+
+
+    setInterval(
+        mostrarResumenDia,
+        60000
+    );
+
+
+    // ========================================
+    // SERVICE WORKER
+    // ========================================
+
+    if (
+        "serviceWorker" in navigator
+    ) {
+
+        navigator.serviceWorker.register(
+            "service-worker.js"
+        );
+
+    }
+
+});

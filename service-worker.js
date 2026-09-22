@@ -1,11 +1,13 @@
-const CACHE_NAME = "organizador-escolar-v2";
+const CACHE_NAME = "organizador-escolar-v3";
 
 const ARCHIVOS = [
     "./",
     "./index.html",
     "./style.css",
     "./script.js",
-    "./manifest.json"
+    "./manifest.json",
+    "./icon-192.png",
+    "./icon-512.png"
 ];
 
 self.addEventListener("install", function (evento) {

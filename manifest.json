@@ -3,8 +3,10 @@
     "short_name": "Organizador",
     "description": "Organiza tus clases, tareas, exámenes y actividades.",
     "start_url": "./",
+    "scope": "./",
     "display": "standalone",
-    "background_color": "#f2f4f8",
-    "theme_color": "#4f46e5",
-    "orientation": "portrait"
+    "background_color": "#f6f4ff",
+    "theme_color": "#e9e4ff",
+    "orientation": "portrait",
+    "lang": "es"
 }
